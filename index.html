@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+					integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+		<link rel="stylesheet" href="stylesheet.css">
+		<title>To Do</title>
+	</head>
+	<body>
+		<div class="wrapper">
+			<h2>To Do</h2>
+			<p id="items"></p>
+			<ul class="listItem">
+				<li>Add New Items</li>
+			</ul>
+			<form class="add-items">
+				<input type="text" name="item" placeholder="Item Name" required>
+				<input class="btn-info" type="submit" value="+ Add Item">
+			</form>
+			<br/>
+			<div class="d-flex justify-content-center">
+				<button class="btn-info" onclick="deleteItems();location.reload();">Delete items</button>
+			</div>
+		</div>
+
+		<script>
+		 const addItems = document.querySelector('.add-items');
+		 const itemsList = document.querySelector('.listItem');
+		 const items = JSON.parse(localStorage.getItem('items')) || [];
+
+		 function addItem(e) {
+			 e.preventDefault();
+			 const text = (this.querySelector('[name=item]')).value;
+			 const item = {
+				 text,
+				 done: false
+			 };
+
+			 items.push(item);
+			 populateList(items, itemsList);
+			 localStorage.setItem('items', JSON.stringify(items));
+			 this.reset();
+		 }
+
+		 function populateList(listItem = [], listItemList) {
+			 listItemList.innerHTML = listItem.map((plate, i) => {
+				 return `
+        <li>
+          <input type="checkbox" data-index=${i} id="item${i}" ${plate.done ? 'checked' : ''} />
+          <label for="item${i}">${plate.text}</label>
+        </li>
+      `;
+			 }).join('');
+		 }
+
+		 function toggleDone(e) {
+			 if(!e.target.matches('input')) return;
+			 const el = e.target;
+			 const index = el.dataset.index;
+			 items[index].done = !items[index].done;
+			 localStorage.setItem('items', JSON.stringify(items));
+			 populateList(items, itemsList);
+		 }
+
+		 addItems.addEventListener('submit', addItem);
+		 itemsList.addEventListener('click', toggleDone);
+
+		 populateList(items, itemsList);
+
+		 function deleteItems() {
+			 localStorage.clear();
+			 var l, i;
+			 document.getElementById("items").innerHTML = "";
+			 for(i = 0; i < localStorage.length; i++) {
+				 x = localStorage.key(i);
+				 document.getElementById("demo").innerHTML += x + "<br>";
+			 }
+		 }
+
+		</script>
+
+		<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+						integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+						crossorigin="anonymous"></script>
+		<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+						integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+						crossorigin="anonymous"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+						integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+						crossorigin="anonymous"></script>
+	</body>
+</html>
+

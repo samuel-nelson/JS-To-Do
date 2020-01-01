@@ -1,0 +1,61 @@
+html {
+  box-sizing: border-box;
+  background: url('forest-under-clouds-1287075.jpg') center no-repeat;
+  background-size: cover;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-family: "Times New Roman","Helvetica",sans-serif;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit; 
+}
+
+.wrapper {
+  padding: 20px;
+  max-width: 350px;
+  background: rgba(255,255,255,0.95);
+  box-shadow: 0 0 0 10px rgba(0,0,0,0.1);
+}
+
+h2 {
+  text-align: center;
+}
+
+.listItem {
+  margin: 0;
+  padding: 0;
+  text-align: left;
+  list-style: none;
+}
+
+.listItem li {
+  border-bottom: 1px solid rgba(0,0,0,0.2);
+  padding: 10px 0;
+  font-weight: 100;
+  display: flex;
+}
+
+.listItem input {
+  display: none;
+}
+
+.listItem input + label:before {
+  content: '⬜️';
+  margin-right: 10px;
+}
+
+.listItem input:checked + label:before {
+  content: 'X';
+}
+
+.add-items {
+  margin-top: 30px;
+}
+
+.add-items input {
+  padding: 10px;
+}
